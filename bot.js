@@ -15,13 +15,13 @@ try {
 	process.exit();
 }
 
-var wishlist;
+/* var wishlist;
 try {
 	wishlist = require("./wishlist.json");
 } catch(e) {
 	// no wishlist file found
 	wishlist = {};
-}
+} */
 
 var commands = {
 	"ping": {
@@ -39,7 +39,7 @@ var commands = {
 					msg.channel.sendMessage(err || "The latest League of Legends patch notes can be found here: http://na.leagueoflegends.com" + data.first.prop("href"));
 			});
 		}
-	},
+	}/* ,
 	"wishlist": {
 		description: "A list of things you would like me to do someday!",
 		process: (bot, msg, suffix) => {
@@ -60,7 +60,7 @@ var commands = {
 			}
 			msg.channel.sendMessage(text);
 		}
-	}
+	} */
 }
 
 var bot = new Discord.Client();
