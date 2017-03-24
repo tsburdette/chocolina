@@ -93,7 +93,7 @@ function parseCommand(msg) {
 
 bot.on('message', (msg) => {
 	if (msg.content === 'who?') {
-		msg.channel.sendFile('images\\chocobocolina.gif');
+		msg.channel.sendFile('images/chocobocolina.gif');
 	} else {
 		parseCommand(msg);
 	}
