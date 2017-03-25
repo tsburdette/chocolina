@@ -12,5 +12,7 @@ let handler = new PingHandler();
 
 exports.command = {
     description: handler.description,
-    process: (bot, msg, suffix) => { handler.ping(msg); }
+    process: (bot, msg, suffix) => {
+        handler.ping(msg);
+    }
 };

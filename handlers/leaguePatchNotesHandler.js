@@ -1,4 +1,3 @@
-
 // Dependencies for LeaguePatchNotesHandler
 let scraper = require('../scraper.js');
 
@@ -20,5 +19,7 @@ let handler = new LeaguePatchNotesHandler();
 
 exports.command = {
     description: handler.description,
-    process: (bot, msg, suffix) => { handler.fetchPatchNotes(msg) }
+    process: (bot, msg, suffix) => {
+        handler.fetchPatchNotes(msg)
+    }
 };
