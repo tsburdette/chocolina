@@ -41,3 +41,6 @@ auth.json
 
 # thumbs.db and others
 *.db
+
+# IDE files
+.idea
