@@ -1,6 +1,6 @@
-const request = require("cloudscraper")
-	, cheerio = require("cheerio")
-	;
+const request = require("cloudscraper");
+const cheerio = require("cheerio");
+
 exports.scrape = function(url, data, cb) {
 	request.get(url, (err, response, body) => {
 		if (err) { return cb(err); }
@@ -15,17 +15,6 @@ exports.scrape = function(url, data, cb) {
 		
 		cb(null, pageData);
 	});
-}
+};
 
-/*
-
-var url = "http://na.leagueoflegends.com/en/tag/patch-notes"
-
-scrape(url, {
-	first: "h4 a"
-}, (err, data) => {
-	console.log(err || "http://na.leagueoflegends.com" + data.first.prop("href"));
-}); 
-
-*/
 

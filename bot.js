@@ -1,74 +1,21 @@
-try {
-	var Discord = require('discord.js');
-} catch (e) {
-	console.log(e.stack);
-	console.log(process.version);
-	console.log("Looks like your libs are missing or wrong. Please run npm install and check for errors.");
-	process.exit();
-}
-console.log("Starting Chocolina.\nNode version: " + process.version + "\nDiscord.js version: " + Discord.version);
 
-try {
-	var token = require('./auth.json').token;
-} catch (e) {
-	console.log("auth.json either missing or wrong. Please ensure auth.json has a token.");
-	process.exit();
-}
+// Dependencies for bot module
+let Discord = debugRequire('discord.js', "Looks like your libs are missing or wrong. Please run npm install and check for errors.");
+let scraper = debugRequire('./scraper.js', 'Looks like the scraper file is missing.');
+let token = debugRequire('./auth.json', "auth.json either missing or wrong. Please ensure auth.json has a token.").token;
+let bot = new Discord.Client();
+console.log(`Starting Chocolina.
+             Node version: ${process.version}
+             Discord.js version: ${Discord.version}`);
 
-/* var wishlist;
-try {
-	wishlist = require("./wishlist.json");
-} catch(e) {
-	// no wishlist file found
-	wishlist = {};
-} */
-
-var commands = {
-	"ping": {
-		description: "responds with 'pong'. Used as a heartbeat command.",
-		process: (bot, msg, suffix) => {
-			msg.channel.sendMessage(msg.author + " pong!");
-		}
-	},
-	"lolpn": {
-		description: "Links the current League of Legends patch notes.",
-		process: (bot, msg, suffix) => {
-			require('./scraper.js').scrape("http://na.leagueoflegends.com/en/tag/patch-notes", {
-					first: "h4 a"
-				}, (err, data) => {
-					msg.channel.sendMessage(err || "The latest League of Legends patch notes can be found here: http://na.leagueoflegends.com" + data.first.prop("href"));
-			});
-		}
-	}/* ,
-	"wishlist": {
-		description: "A list of things you would like me to do someday!",
-		process: (bot, msg, suffix) => {
-			console.log("Wishlisting!");
-			wishlist[new Date()] = suffix;
-			console.log("Added to wishlist!");
-			require("fs").writeFile("./wishlist.json", JSON.stringify(wishlist, null, '\t'), null);
-			console.log("Written to file!");
-			msg.channel.sendMessage("Added to wishlist: " + suffix);
-		}
-	},
-	"getWishlist": {
-		description: "Lists out all the wishlist items to date.",
-		process: (bot, msg, suffix) => {
-			var text = "Current wishlist:\n";
-			for (var wish in wishlist) {
-				text += JSON.stringify(wish) + "\n";
-			}
-			msg.channel.sendMessage(text);
-		}
-	} */
-}
-
-var bot = new Discord.Client();
+let commands = {
+	"ping": require('./handlers/pingHandler.js').command,
+	"lolpn": require('./handlers/leaguePatchNotesHandler.js').command
+};
 
 bot.on("ready", () => {
 	console.log("I'm Chocolina, super time-traveling salesgirl!");
 	// TODO: Make command prefix arbitrary, help response, other servers?
-	// bot.user.setGame("Try \'!help\'.")
 });
 
 bot.on("disconnected", () => {
@@ -76,20 +23,6 @@ bot.on("disconnected", () => {
 	process.exit(1);
 });
 
-function parseCommand(msg) {
-	// TODO: Make command prefix arbitrary.
-	if ((msg.author.id != bot.user.id) && (msg.content.startsWith("!"))) {
-		console.log(msg.author + " requested " + msg.content);
-		// TODO: Make command prefix arbitrary
-		var cmdTxt = msg.content.split(" ")[0].substring("!".length);
-		var suffix = msg.content.substring(cmdTxt.length + "!".length + 1);
-		try {
-			commands[cmdTxt].process(bot, msg, suffix);
-		} catch(e) {
-			msg.channel.sendMessage("I don't know how to " + cmdTxt);
-		}
-	}
-}
 
 bot.on('message', (msg) => {
 	if (msg.content === 'who?') {
@@ -100,3 +33,32 @@ bot.on('message', (msg) => {
 });
 
 bot.login(token);
+
+function debugRequire(npmPackage, errorMessage) {
+	try {
+		require(npmPackage);
+	} catch (e) {
+        console.log(e.stack);
+	    console.log(errorMessage);
+        process.exit();
+    }
+}
+
+function parseCommand(msg) {
+    // TODO: Make command prefix arbitrary.
+    if (isMessageToBot(msg)) {
+        console.log(msg.author + " requested " + msg.content);
+        // TODO: Make command prefix arbitrary
+        let cmdTxt = msg.content.split(" ")[0].substring("!".length);
+        let suffix = msg.content.substring(cmdTxt.length + "!".length + 1);
+        try {
+            commands[cmdTxt].process(bot, msg, suffix);
+        } catch(e) {
+            msg.channel.sendMessage("I don't know how to " + cmdTxt);
+        }
+    }
+}
+
+function isMessageToBot(msg) {
+    msg.author.id !== bot.user.id && msg.content.startsWith("!")
+}
