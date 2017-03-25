@@ -1,13 +1,17 @@
 {
-  "name": "Discord Bot",
+  "name": "chocolina-discord",
   "version": "1.0.0",
-  "description": "",
+  "description": "Discord bot for Chocolina, the super time-traveling salesgirl.",
   "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "",
+  "author": "Taylor Burdette",
+  "license": "MIT",
+  "repository": "https://github.com/tsburdette/chocolina",
+  "contributors": [
+    "Aaron Friesen"
+  ],
   "dependencies": {
     "cheerio": "^0.22.0",
     "cloudscraper": "^1.4.1",
