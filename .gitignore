@@ -38,3 +38,6 @@ jspm_packages
 
 # authentication file
 auth.json
+
+# thumbs.db and others
+*.db
