@@ -6,11 +6,14 @@ class LeaguePatchNotesHandler {
         this.description = "Links the current League of Legends patch notes.";
     }
 
-    fetchPatchNotes(msg) {
+    fetchPatchNotes(channel) {
         scraper.scrape("http://na.leagueoflegends.com/en/tag/patch-notes", {
             first: "h4 a"
-        }, false, (err, data) => {
+        }, (err, data) => {
             msg.channel.sendMessage(err || "The latest League of Legends patch notes can be found here: http://na.leagueoflegends.com" + data.first.prop("href"));
+=======
+        }, (err, data) => {
+            channel.sendMessage(err || "The latest League of Legends patch notes can be found here: http://na.leagueoflegends.com" + data.first.prop("href"));
         });
     }
 }
@@ -20,6 +23,8 @@ let handler = new LeaguePatchNotesHandler();
 exports.command = {
     description: handler.description,
     process: (bot, msg, suffix) => {
-        handler.fetchPatchNotes(msg)
+        handler.fetchPatchNotes(msg.channel)
     }
 };
+
+exports.LeaguePatchNotesHandler = LeaguePatchNotesHandler;
