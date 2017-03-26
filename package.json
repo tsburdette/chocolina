@@ -4,7 +4,7 @@
   "description": "Discord bot for Chocolina, the super time-traveling salesgirl.",
   "main": "bot.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha tst --recursive"
   },
   "author": "Taylor Burdette",
   "license": "MIT",
@@ -17,5 +17,10 @@
     "cloudscraper": "^1.4.1",
     "discord.js": "^11.0.0",
     "fs": "0.0.1-security"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0",
+    "proxyquire": "^1.7.11",
+    "sinon": "^2.1.0"
   }
 }
