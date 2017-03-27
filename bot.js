@@ -8,7 +8,8 @@ console.log(`Starting Chocolina.
 
 let commands = {
     "ping": require('./handlers/pingHandler.js').command,
-    "lolpn": require('./handlers/leaguePatchNotesHandler.js').command
+    "lolpn": require('./handlers/leaguePatchNotesHandler.js').command,
+	"react": require('./handlers/booruImageHandler.js').command
 };
 
 bot.on("ready", () => {
@@ -58,5 +59,5 @@ function parseCommand(msg) {
 }
 
 function isMessageToBot(msg) {
-    msg.author.id !== bot.user.id && msg.content.startsWith("!")
+    return msg.author.id !== bot.user.id && msg.content.startsWith("!");
 }

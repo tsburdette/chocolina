@@ -9,7 +9,7 @@ class LeaguePatchNotesHandler {
     fetchPatchNotes(msg) {
         scraper.scrape("http://na.leagueoflegends.com/en/tag/patch-notes", {
             first: "h4 a"
-        }, (err, data) => {
+        }, false, (err, data) => {
             msg.channel.sendMessage(err || "The latest League of Legends patch notes can be found here: http://na.leagueoflegends.com" + data.first.prop("href"));
         });
     }

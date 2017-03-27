@@ -1,13 +1,15 @@
 const request = require("cloudscraper");
 const cheerio = require("cheerio");
 
-exports.scrape = function (url, data, cb) {
+exports.scrape = function (url, data, xmlMode, cb) {
     request.get(url, (err, response, body) => {
         if (err) {
             return cb(err);
         }
 
-        let $ = cheerio.load(body)
+        let $ = cheerio.load(body, {
+			xmlMode: xmlMode
+		})
             , pageData = {}
         ;
 
