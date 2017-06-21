@@ -11,9 +11,6 @@ class LeaguePatchNotesHandler {
             first: "h4 a"
         }, (err, data) => {
             msg.channel.sendMessage(err || "The latest League of Legends patch notes can be found here: http://na.leagueoflegends.com" + data.first.prop("href"));
-=======
-        }, (err, data) => {
-            channel.sendMessage(err || "The latest League of Legends patch notes can be found here: http://na.leagueoflegends.com" + data.first.prop("href"));
         });
     }
 }

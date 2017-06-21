@@ -9,7 +9,7 @@ console.log(`Starting Chocolina.
 let commands = {
     "ping": require('./handlers/pingHandler.js').command,
     "lolpn": require('./handlers/leaguePatchNotesHandler.js').command,
-	"react": require('./handlers/booruImageHandler.js').command
+    "react": require('./handlers/booruImageHandler.js').command
 };
 
 bot.on("ready", () => {
@@ -25,9 +25,17 @@ bot.on("disconnected", () => {
 
 bot.on('message', (msg) => {
     if (msg.content === 'who?') {
-        msg.channel.sendFile('images/chocobocolina.gif');
+        try {
+            msg.channel.sendFile('images/chocobocolina.gif');
+        } catch (e) {
+            console.log("Issue getting who?")
+        }
     } else {
-        parseCommand(msg);
+        try {
+            parseCommand(msg);
+        } catch (e) {
+            msg.channel.sendMessage("Something went wrong!")
+        }
     }
 });
 
